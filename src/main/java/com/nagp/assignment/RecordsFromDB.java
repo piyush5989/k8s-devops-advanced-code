@@ -10,6 +10,9 @@ import java.sql.*;
 @SpringBootApplication
 @RestController
 public class RecordsFromDB {
+    private static final String DB_URL = "jdbc:mysql://" + System.getenv("DB_HOST") + ":3306/" + System.getenv("DB_NAME");
+    private static final String DB_USER = System.getenv("DB_USER");
+    private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
 
     public static void main(String[] args) {
         SpringApplication.run(RecordsFromDB.class, args);
@@ -26,11 +29,11 @@ public class RecordsFromDB {
     }
 
     private String fromDB() {
-        String url = "jdbc:mysql://localhost:3306/dummy_records";
-        String username = "root";
-        String password = "interOP@123";
+//        String url = "jdbc:mysql://localhost:3306/dummy_records";
+//        String username = "root";
+//        String password = "interOP@123";
         StringBuilder builder = new StringBuilder(String.format("<br/><br/>Fetching records from pod: [%s]<br/><br/>", System.getenv("HOSTNAME")));
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sql = "SELECT * FROM employee";
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(sql)) {
