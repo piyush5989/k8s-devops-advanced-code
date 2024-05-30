@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: records-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: records-api
+  template:
+    metadata:
+      labels:
+        app: records-api
+    spec:
+      containers:
+      - name: records-api-container
+        image: piyush050389/records-api-service:1.1
+        ports:
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+        env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: records-api-config
+              key: DB_HOST
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: records-api-config
+              key: DB_NAME
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: records-api-secret
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: records-api-secret
+              key: DB_PASSWORD
+

@@ -25,7 +25,7 @@ public class RecordsFromDB {
 
     @GetMapping("/records")
     public String getRecords() {
-        return String.format("Retrieving records from the database: [%s]<br/><br/>", DB_URL) + fromDB();
+        return String.format("Retrieving records from the database URL: [%s]<br/><br/>", DB_URL) + fromDB();
     }
 
     private String fromDB() {
