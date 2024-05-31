@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql
+  name: mysql-statefulset
 spec:
-  serviceName: mysql
+  serviceName: mysql-headless
   replicas: 1
   selector:
     matchLabels:
-      app: mysql
+      app: mysql-db
   template:
     metadata:
       labels:
-        app: mysql
+        app: mysql-db
     spec:
       containers:
       - name: mysql
