@@ -30,14 +30,14 @@ public class RecordsFromDB {
         StringBuilder builder = new StringBuilder(String.format("<br/>Fetching records from pod: [%s]<br/><br/>", System.getenv("HOSTNAME")));
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sql = String.format("select * from %s", TABLE_NAME);
-            builder.append("Query: " + sql + "<br/><br/>");
+            builder.append("<b>Query:</b> " + sql + "<br/><br/>");
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(sql)) {
                 int count = 0;
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
                     String name = resultSet.getString("name");
-                    String record = String.format("Row %d => Id: [%d], Name: [%s]<br/>", count++, id, name);
+                    String record = String.format("Row %d => Id: [%d], Name: [%s]<br/>", ++count, id, name);
                     System.out.println(record);
                     builder.append(record);
                     builder.append(printDash(record.length()) + "<br/>");
