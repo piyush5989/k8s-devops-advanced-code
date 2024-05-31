@@ -29,18 +29,18 @@ public class RecordsFromDB {
     public String getRecords() {
         StringBuilder builder = new StringBuilder(String.format("<br/>Fetching records from pod: [%s]<br/><br/>", System.getenv("HOSTNAME")));
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sql = String.format("SELECT * FROM %s", TABLE_NAME);
-            builder.append(sql+"<br/>");
+            String sql = String.format("select * from %s", TABLE_NAME);
+            builder.append("Query: " + sql + "<br/><br/>");
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(sql)) {
                 int count = 0;
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
                     String name = resultSet.getString("name");
-                    String record = String.format("Record %d -> Id: [%d], Name: [%s]...<br/>", count++, id, name);
+                    String record = String.format("Row %d => Id: [%d], Name: [%s]<br/>", count++, id, name);
                     System.out.println(record);
                     builder.append(record);
-                    builder.append(printDash(record.length()));
+                    builder.append(printDash(record.length()) + "<br/>");
                 }
             }
         } catch (SQLException e) {
