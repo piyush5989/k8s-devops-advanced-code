@@ -32,36 +32,29 @@ public class RecordsFromDB {
             String sql = String.format("SELECT * FROM %s", TABLE_NAME);
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(sql)) {
-                int columnCount = resultSet.getMetaData().getColumnCount();
-                int[] columnSizes = new int[columnCount];
-                String[] columnNames = new String[columnCount];
-
-                for (int i = 1; i <= columnCount; i++) {
-                    columnNames[i - 1] = resultSet.getMetaData().getColumnName(i);
-                    columnSizes[i - 1] = Math.max(resultSet.getMetaData().getColumnDisplaySize(i), columnNames[i - 1].length());
-                }
-
-                // Print the column headers
-                Utils.printSeparator(builder,columnSizes);
-                Utils.printRow(builder,columnNames, columnSizes);
-                Utils.printSeparator(builder,columnSizes);
-
-                // Print the rows
+                int count = 0;
                 while (resultSet.next()) {
-                    String[] row = new String[columnCount];
-                    for (int i = 1; i <= columnCount; i++) {
-                        row[i - 1] = resultSet.getString(i);
-                    }
-                    Utils.printRow(builder, row, columnSizes);
+                    int id = resultSet.getInt("id");
+                    String name = resultSet.getString("name");
+                    String record = String.format("Record %d -> Id: [%d], Name: [%s]...<br/>", count++, id, name);
+                    System.out.println(record);
+                    builder.append(record);
+                    builder.append(printDash(record.length()));
                 }
-
-                Utils.printSeparator(builder, columnSizes);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             builder.append(e.getMessage());
         }
         return builder.toString();
+    }
+
+    private String printDash(int length) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            sb.append("-");
+        }
+        return sb.toString();
     }
 
 
