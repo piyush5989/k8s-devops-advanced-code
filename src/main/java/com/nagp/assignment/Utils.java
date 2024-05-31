@@ -1,22 +1,24 @@
 package com.nagp.assignment;
 
 public class Utils {
-    static void printSeparator(int[] columnSizes) {
+    static void printSeparator(StringBuilder builder, int[] columnSizes) {
         for (int columnSize : columnSizes) {
-            System.out.print("+");
+            builder.append("+");
             for (int j = 0; j < columnSize + 2; j++) {
-                System.out.print("-");
+                builder.append("-");
             }
         }
-        System.out.println("+");
+        builder.append("+");
+        builder.append("\\n");
     }
 
-    static void printRow(String[] row, int[] columnSizes) {
+    static void printRow(StringBuilder builder, String[] row, int[] columnSizes) {
         for (int i = 0; i < row.length; i++) {
-            System.out.print("| ");
-            System.out.print(String.format("%-" + columnSizes[i] + "s", row[i]));
-            System.out.print(" ");
+            builder.append("| ");
+            builder.append(String.format("%-" + columnSizes[i] + "s", row[i]));
+            builder.append(" ");
         }
-        System.out.println("|");
+        builder.append("|");
+        builder.append("\\n");
     }
 }

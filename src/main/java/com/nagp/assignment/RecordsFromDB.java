@@ -14,6 +14,7 @@ public class RecordsFromDB {
     private static final String DB_URL = "jdbc:mysql://" + System.getenv("DB_HOST") + ":3306/" + System.getenv("DB_NAME");
     private static final String DB_USER = System.getenv("DB_USER");
     private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
+    private static final String TABLE_NAME = System.getenv("DB_TABLE");
 
     public static void main(String[] args) {
         SpringApplication.run(RecordsFromDB.class, args);
@@ -28,7 +29,7 @@ public class RecordsFromDB {
     public String getRecords() {
         StringBuilder builder = new StringBuilder(String.format("<br/>Fetching records from pod: [%s]<br/><br/>", System.getenv("HOSTNAME")));
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sql = "SELECT * FROM employee";
+            String sql = String.format("SELECT * FROM %s", TABLE_NAME);
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(sql)) {
                 int columnCount = resultSet.getMetaData().getColumnCount();
@@ -41,9 +42,9 @@ public class RecordsFromDB {
                 }
 
                 // Print the column headers
-                Utils.printSeparator(columnSizes);
-                Utils.printRow(columnNames, columnSizes);
-                Utils.printSeparator(columnSizes);
+                Utils.printSeparator(builder,columnSizes);
+                Utils.printRow(builder,columnNames, columnSizes);
+                Utils.printSeparator(builder,columnSizes);
 
                 // Print the rows
                 while (resultSet.next()) {
@@ -51,10 +52,10 @@ public class RecordsFromDB {
                     for (int i = 1; i <= columnCount; i++) {
                         row[i - 1] = resultSet.getString(i);
                     }
-                    Utils.printRow(row, columnSizes);
+                    Utils.printRow(builder, row, columnSizes);
                 }
 
-                Utils.printSeparator(columnSizes);
+                Utils.printSeparator(builder, columnSizes);
             }
         } catch (SQLException e) {
             e.printStackTrace();

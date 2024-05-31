@@ -5,4 +5,5 @@ metadata:
 data:
   DB_HOST: mysql
   DB_NAME: dummy_records
+  DB_TABLE: dieties
 
