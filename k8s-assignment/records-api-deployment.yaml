@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: records-api-container
-        image: piyush050389/nagp-k8s-assignment:1.2
+        image: piyush050389/nagp-k8s-assignment:1.2.1
         ports:
           - name: http
             containerPort: 8080
