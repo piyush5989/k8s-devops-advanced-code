@@ -22,7 +22,7 @@ public class RecordsFromDB {
 
     @GetMapping("/")
     public String home() {
-        return String.format("Hello, this is my API service to fetch records from DB: [%s]", DB_URL);
+        return String.format("Hello, this is my API service to fetch records from DB: [%s]<br/><br/>Use <i>/records</i> endpoint to get the records...", DB_URL);
     }
 
     @GetMapping("/records")
