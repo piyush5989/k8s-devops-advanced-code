@@ -4,6 +4,7 @@
 - Java 11
 - Gradle
 - Docker
+- MySQL
 
 ### Building the Project
 
