@@ -27,7 +27,8 @@ public class GetRecordsController {
 
     @GetMapping("/records")
     public String getRecords() {
-        StringBuilder builder = new StringBuilder(String.format("<br/>Fetching records from pod: [%s]<br/><br/>", System.getenv("HOSTNAME")));
+        StringBuilder builder = new StringBuilder("Version: <b>1.1</b><br/>");
+        builder.append(String.format("<br/>Fetching records from pod: [%s]<br/><br/>", System.getenv("HOSTNAME")));
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sql = String.format("select * from %s", DB_TABLE);
             builder.append("<b>Query:</b> " + sql + "<br/><br/>");
