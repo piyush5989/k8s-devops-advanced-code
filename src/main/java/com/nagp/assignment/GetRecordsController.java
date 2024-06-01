@@ -10,26 +10,26 @@ import java.sql.*;
 
 @SpringBootApplication
 @RestController
-public class RecordsFromDB {
+public class GetRecordsController {
     private static final String DB_URL = "jdbc:mysql://" + System.getenv("DB_HOST") + ":3306/" + System.getenv("DB_NAME");
     private static final String DB_USER = System.getenv("DB_USER");
     private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
-    private static final String TABLE_NAME = System.getenv("DB_TABLE");
+    private static final String DB_TABLE = System.getenv("DB_TABLE");
 
     public static void main(String[] args) {
-        SpringApplication.run(RecordsFromDB.class, args);
+        SpringApplication.run(GetRecordsController.class, args);
     }
 
     @GetMapping("/")
     public String home() {
-        return String.format("Hello, this is my API service to fetch records from DB: [%s]", DB_URL);
+        return String.format("Hey, this is an API service to fetch records from DB: [%s]<br/><br/>Please use <i>/records</i> endpoint to retrieve the records from the specified table: [%s]<br/><br/>Please use <i>/fib/{num}</i> endpoint to simulate the load on a pod to trigger HPA action...", DB_URL, DB_TABLE);
     }
 
     @GetMapping("/records")
     public String getRecords() {
         StringBuilder builder = new StringBuilder(String.format("<br/>Fetching records from pod: [%s]<br/><br/>", System.getenv("HOSTNAME")));
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sql = String.format("select * from %s", TABLE_NAME);
+            String sql = String.format("select * from %s", DB_TABLE);
             builder.append("<b>Query:</b> " + sql + "<br/><br/>");
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(sql)) {
