@@ -1,11 +1,25 @@
-# Source code for backend service to fetch records from DB
+# Backend service to fetch records from MySQL database
 
-This repository is a Java based gradle project which uses a Rest controller to expose below endpoints:
-- Get records endpoint [ /records ]
-- Simulate Load endpoint [ /fib/{num} ]
+## Prerequisites
+- Java 11
+- Gradle
+- Docker
 
-This project is containerized using Dockerfile specified at root project location, You can run below commands to build and push the docker image:
+### Building the Project
+
+To build the project, run the following command:
+
+```bash
+gradle clean build
 ```
-docker build -t piyush050389/k8s-devops-advanced-code:1.1 .
-docker push piyush050389/k8s-devops-advanced-code:1.1
+
+To run the project using Docker, use the following command:
+
 ```
+docker run -p 8080:8080 piyush050389/k8s-devops-advanced-code:1.1
+```
+
+### API Endpoints
+
+- Get /records: Retrieve all records.
+- GET /fib/{num}: Simulate load by calculating the Fibonacci number for the given num.
